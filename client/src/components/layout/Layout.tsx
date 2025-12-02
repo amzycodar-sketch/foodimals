@@ -59,9 +59,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
              <button className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                Log In
              </button>
-             <button className="bg-foreground text-background px-4 py-2 rounded-lg text-sm font-bold hover:bg-foreground/90 transition-colors">
-               Get Pro
-             </button>
+             <Link href="/pricing">
+               <button className="bg-foreground text-background px-4 py-2 rounded-lg text-sm font-bold hover:bg-foreground/90 transition-colors">
+                 Get Pro
+               </button>
+             </Link>
           </div>
 
           {/* Mobile Menu Button */}

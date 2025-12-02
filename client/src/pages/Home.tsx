@@ -123,7 +123,11 @@ export default function Home() {
             >
               Start Expedition
             </ShinyButton>
-            <ShinyButton variant="secondary" size="xl">
+            <ShinyButton 
+              variant="secondary" 
+              size="xl"
+              onClick={() => setLocation('/leaderboard')}
+            >
               View Leaderboard
             </ShinyButton>
           </div>

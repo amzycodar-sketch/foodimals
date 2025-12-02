@@ -8,6 +8,8 @@ import Home from "@/pages/Home";
 import Game from "@/pages/Game";
 import Collection from "@/pages/Collection";
 import Profile from "@/pages/Profile";
+import Pricing from "@/pages/Pricing";
+import Leaderboard from "@/pages/Leaderboard";
 
 function Router() {
   return (
@@ -17,6 +19,8 @@ function Router() {
         <Route path="/play" component={Game}/>
         <Route path="/collection" component={Collection}/>
         <Route path="/profile" component={Profile}/>
+        <Route path="/pricing" component={Pricing}/>
+        <Route path="/leaderboard" component={Leaderboard}/>
         <Route component={NotFound} />
       </Switch>
     </Layout>
