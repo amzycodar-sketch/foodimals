@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { useGameStore } from '@/store/gameStore';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { motion } from 'framer-motion';
-import { Trophy, Star, Flame } from 'lucide-react';
+import { Trophy, Star, Flame, ArrowRight, Zap, Globe, Brain } from 'lucide-react';
 import logoImg from '@assets/generated_images/colorful_playful_logo_for_foodimals_game.png';
 
 export default function Home() {
@@ -20,117 +20,176 @@ export default function Home() {
 
   if (isEditingName) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[80vh] text-center space-y-8">
-        <motion.img 
-          initial={{ scale: 0 }} 
-          animate={{ scale: 1 }} 
-          transition={{ type: 'spring', bounce: 0.5 }}
-          src={logoImg} 
-          alt="Foodimals Logo" 
-          className="w-64 h-64 object-contain drop-shadow-xl"
-        />
-        
-        <div className="space-y-4 w-full max-w-xs">
-          <h1 className="text-3xl font-display text-primary">Welcome, Chef!</h1>
-          <p className="text-muted-foreground font-medium">Enter your name to start collecting Foodimals.</p>
-          
-          <input
-            type="text"
-            value={nameInput}
-            onChange={(e) => setNameInput(e.target.value)}
-            placeholder="Your Name"
-            className="w-full h-14 px-6 rounded-2xl border-2 border-border text-xl font-bold text-center focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all"
-          />
-          
-          <ShinyButton 
-            className="w-full" 
-            onClick={handleStart}
-            disabled={!nameInput.trim()}
+      <div className="flex flex-col items-center justify-center min-h-[70vh] text-center relative overflow-hidden">
+        {/* Background Blobs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl -z-10 animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl -z-10 animate-pulse delay-1000" />
+
+        <div className="space-y-8 w-full max-w-md px-6 z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            Let's Go!
-          </ShinyButton>
+            <h1 className="text-5xl sm:text-7xl font-display font-bold tracking-tight text-foreground mb-2">
+              Foodimals
+            </h1>
+            <p className="text-xl text-muted-foreground font-medium">
+              The future of hybrid discovery.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-card/50 backdrop-blur-md border border-border p-8 rounded-3xl shadow-2xl"
+          >
+            <div className="space-y-4">
+              <div className="text-left space-y-1">
+                <label className="text-sm font-semibold text-foreground pl-1">Enter Credentials</label>
+                <input
+                  type="text"
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  placeholder="Agent Name"
+                  className="w-full h-12 px-4 rounded-xl bg-background border border-border text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                />
+              </div>
+              
+              <ShinyButton 
+                className="w-full" 
+                size="lg"
+                onClick={handleStart}
+                disabled={!nameInput.trim()}
+              >
+                Initialize Session <ArrowRight size={18} />
+              </ShinyButton>
+            </div>
+          </motion.div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Header Stats */}
-      <header className="flex items-center justify-between bg-card p-4 rounded-3xl border-2 border-border shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-2xl">
-            👨‍🍳
+    <div className="space-y-16 pb-12">
+      {/* Dashboard Header */}
+      <motion.header 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col md:flex-row items-start md:items-center justify-between bg-card p-6 rounded-3xl border border-border shadow-sm gap-4"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 bg-gradient-to-br from-primary to-purple-600 rounded-2xl flex items-center justify-center text-3xl text-white shadow-lg shadow-primary/20">
+            👨‍💻
           </div>
           <div>
-            <h2 className="font-display font-bold text-lg leading-none">{username}</h2>
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Level {level}</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 bg-accent/20 px-4 py-2 rounded-2xl border-2 border-accent/20">
-          <Star className="text-accent fill-accent" size={20} />
-          <span className="font-black text-accent-foreground">{coins}</span>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="text-center space-y-6 py-4">
-        <motion.div 
-          animate={{ y: [0, -10, 0] }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-        >
-          <img src={logoImg} alt="Foodimals" className="w-48 h-48 mx-auto object-contain drop-shadow-2xl" />
-        </motion.div>
-        
-        <div className="space-y-2">
-          <h1 className="text-4xl font-display text-primary drop-shadow-sm">Foodimals</h1>
-          <p className="text-lg font-medium text-muted-foreground">Guess the hybrid. Collect them all.</p>
-        </div>
-
-        <ShinyButton 
-          size="xl" 
-          className="w-full shadow-juicy-primary animate-pulse"
-          onClick={() => setLocation('/play')}
-        >
-          PLAY NOW
-        </ShinyButton>
-      </section>
-
-      {/* Daily Challenge Card */}
-      <section className="bg-gradient-to-br from-secondary/20 to-secondary/5 border-2 border-secondary/20 rounded-3xl p-6 relative overflow-hidden">
-        <div className="absolute -right-4 -top-4 w-24 h-24 bg-secondary/20 rounded-full blur-xl"></div>
-        
-        <div className="relative z-10 flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Flame className="text-secondary fill-secondary" />
-              <h3 className="font-display text-xl text-secondary-foreground">Daily Challenge</h3>
+            <h2 className="font-display font-bold text-2xl leading-none mb-1">{username}</h2>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-md uppercase text-xs tracking-wider">Pro Member</span>
+              <span>•</span>
+              <span>Level {level} Scout</span>
             </div>
-            <p className="text-sm font-medium text-muted-foreground mb-4">Guess 3 Rare Foodimals in a row!</p>
-            <ShinyButton variant="secondary" size="sm">Start Challenge</ShinyButton>
           </div>
-          <div className="text-4xl">🎁</div>
         </div>
-      </section>
-
-      {/* Leaderboard Teaser */}
-      <section className="bg-card border-2 border-border rounded-3xl p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Trophy className="text-accent fill-accent" />
-          <h3 className="font-display text-xl">Top Players</h3>
-        </div>
-        <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="flex items-center justify-between p-3 bg-muted/50 rounded-xl">
-              <div className="flex items-center gap-3">
-                <span className="font-black text-muted-foreground/50">#{i}</span>
-                <span className="font-bold">Player{i}</span>
+        
+        <div className="flex items-center gap-3 w-full md:w-auto">
+           <div className="flex-1 md:flex-none flex items-center gap-3 bg-background border border-border px-5 py-3 rounded-xl">
+              <Star className="text-amber-400 fill-amber-400" size={20} />
+              <div>
+                <div className="text-xs text-muted-foreground font-bold uppercase">Credits</div>
+                <div className="font-mono font-bold text-lg leading-none">{coins.toLocaleString()}</div>
               </div>
-              <span className="font-mono text-sm text-muted-foreground">{1000 - (i * 50)} XP</span>
-            </div>
-          ))}
+           </div>
+           <ShinyButton size="sm" variant="outline">Top Up</ShinyButton>
+        </div>
+      </motion.header>
+
+      {/* Hero / CTA Section */}
+      <section className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="space-y-6 text-center md:text-left">
+          <h1 className="text-4xl md:text-6xl font-display font-bold tracking-tight leading-tight">
+            Discover the <span className="text-gradient">Unknown.</span>
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-md mx-auto md:mx-0">
+            Join millions of players classifying the world's most elusive hybrid species. Powered by advanced AI generation.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+            <ShinyButton 
+              size="xl" 
+              className="shadow-xl shadow-primary/20"
+              onClick={() => setLocation('/play')}
+            >
+              Start Expedition
+            </ShinyButton>
+            <ShinyButton variant="secondary" size="xl">
+              View Leaderboard
+            </ShinyButton>
+          </div>
+        </div>
+        
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-full blur-3xl -z-10" />
+          <motion.div 
+            animate={{ y: [0, -15, 0] }}
+            transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+            className="bg-white/50 dark:bg-black/50 backdrop-blur-xl border border-white/20 dark:border-white/10 p-6 rounded-[2.5rem] shadow-2xl"
+          >
+             <img src={logoImg} alt="Foodimals" className="w-full h-auto rounded-2xl shadow-inner" />
+             <div className="mt-4 flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Featured Hybrid</div>
+                  <div className="font-display font-bold text-xl">BurgerBear</div>
+                </div>
+                <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">Rare</div>
+             </div>
+          </motion.div>
         </div>
       </section>
+
+      {/* Features Grid */}
+      <section className="grid sm:grid-cols-3 gap-6">
+        {[
+          { icon: Brain, title: "AI Generated", desc: "Infinite procedural combinations." },
+          { icon: Globe, title: "Global Network", desc: "Compete with agents worldwide." },
+          { icon: Zap, title: "Instant Sync", desc: "Cross-platform progression." },
+        ].map((feature, i) => (
+          <motion.div 
+            key={i}
+            whileHover={{ y: -5 }}
+            className="bg-card border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all"
+          >
+            <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-4 text-foreground">
+              <feature.icon size={24} />
+            </div>
+            <h3 className="font-display font-bold text-lg mb-2">{feature.title}</h3>
+            <p className="text-sm text-muted-foreground">{feature.desc}</p>
+          </motion.div>
+        ))}
+      </section>
+
+      {/* Daily Challenge Banner */}
+      <section className="relative overflow-hidden rounded-3xl bg-foreground text-background p-8 md:p-12">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary to-accent opacity-20 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3" />
+        
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Flame className="text-orange-500 fill-orange-500" />
+              <span className="font-bold uppercase tracking-widest text-sm opacity-80">Daily Ops</span>
+            </div>
+            <h3 className="font-display font-bold text-3xl md:text-4xl mb-2">The Golden Trio</h3>
+            <p className="text-background/70 max-w-md text-lg">
+              Identify 3 Rare class entities consecutively to unlock the exclusive 'Golden Glaze' skin.
+            </p>
+          </div>
+          <ShinyButton variant="glass" size="lg" className="shrink-0">
+            Accept Mission
+          </ShinyButton>
+        </div>
+      </section>
+
     </div>
   );
 }
